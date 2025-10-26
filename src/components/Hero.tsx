@@ -2,6 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-gym.jpg";
 
+const scrollToSection = (sectionId: string) => {
+  const element = document.querySelector(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -29,6 +36,7 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
+              onClick={() => scrollToSection("#programs")}
               className="bg-gradient-to-r from-primary to-primary-glow hover:shadow-[var(--shadow-glow)] transition-all duration-300 text-lg px-8 py-6"
             >
               Explore Programs
@@ -37,6 +45,7 @@ export const Hero = () => {
             <Button 
               size="lg" 
               variant="outline"
+              onClick={() => scrollToSection("#weekend-runs")}
               className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-6 transition-all duration-300"
             >
               Join Weekend Runs

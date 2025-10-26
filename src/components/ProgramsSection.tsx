@@ -1,23 +1,27 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Heart, Footprints, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const programs = [
   {
     icon: Dumbbell,
     title: "Workout & Mobility",
+    slug: "workout-mobility",
     description: "Build strength and flexibility with our comprehensive training programs designed for all fitness levels.",
     features: ["Strength Training", "Flexibility Work", "Recovery Sessions", "Expert Coaching"],
   },
   {
     icon: Footprints,
     title: "Running Programs",
+    slug: "running",
     description: "From beginners to marathoners, improve your running performance with structured training plans.",
     features: ["5K to Marathon Prep", "Speed Work", "Endurance Building", "Running Form Analysis"],
   },
   {
     icon: User,
     title: "Personal Training",
+    slug: "personal-training",
     description: "Get one-on-one attention with customized workout plans tailored to your specific goals.",
     features: ["Custom Programs", "1-on-1 Coaching", "Progress Tracking", "Nutrition Guidance"],
   },
@@ -25,7 +29,7 @@ const programs = [
 
 export const ProgramsSection = () => {
   return (
-    <section className="py-20 px-4 bg-background">
+    <section id="programs" className="py-20 px-4 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -65,11 +69,13 @@ export const ProgramsSection = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    className="w-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-[var(--shadow-glow)] transition-all duration-300"
-                  >
-                    Get Started
-                  </Button>
+                  <Link to={`/programs/${program.slug}`}>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-[var(--shadow-glow)] transition-all duration-300"
+                    >
+                      Get Started
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             );

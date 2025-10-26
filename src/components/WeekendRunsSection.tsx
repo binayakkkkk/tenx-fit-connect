@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, MapPin, Users, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const upcomingRuns = [
   {
+    id: "1",
     date: "Saturday, Nov 2",
     time: "7:00 AM",
     location: "Central Park Loop",
@@ -11,6 +13,7 @@ const upcomingRuns = [
     participants: 24,
   },
   {
+    id: "2",
     date: "Sunday, Nov 3",
     time: "6:30 AM",
     location: "Riverside Trail",
@@ -21,7 +24,7 @@ const upcomingRuns = [
 
 export const WeekendRunsSection = () => {
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-card to-background">
+    <section id="weekend-runs" className="py-20 px-4 bg-gradient-to-br from-card to-background">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -61,11 +64,13 @@ export const WeekendRunsSection = () => {
                   <Users className="h-4 w-4 mr-2 text-primary" />
                   {run.participants} runners registered
                 </div>
-                <Button 
-                  className="w-full mt-4 bg-gradient-to-r from-primary to-primary-glow hover:shadow-[var(--shadow-glow)] transition-all duration-300"
-                >
-                  Register Now
-                </Button>
+                <Link to={`/weekend-runs/register/${run.id}`}>
+                  <Button 
+                    className="w-full mt-4 bg-gradient-to-r from-primary to-primary-glow hover:shadow-[var(--shadow-glow)] transition-all duration-300"
+                  >
+                    Register Now
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}

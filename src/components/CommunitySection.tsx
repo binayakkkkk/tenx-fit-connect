@@ -26,7 +26,7 @@ const stats = [
 
 export const CommunitySection = () => {
   return (
-    <section className="py-20 px-4 bg-background relative overflow-hidden">
+    <section id="community" className="py-20 px-4 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
       
       <div className="container mx-auto relative z-10">
