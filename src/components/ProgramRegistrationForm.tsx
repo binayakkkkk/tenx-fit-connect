@@ -38,7 +38,16 @@ export const ProgramRegistrationForm = ({ program }: ProgramRegistrationFormProp
   });
 
   const onSubmit = (data: FormData) => {
-    console.log("Registration data:", { ...data, program: program.title });
+    // Save to localStorage
+    const enrollments = JSON.parse(localStorage.getItem("programEnrollments") || "[]");
+    const newEnrollment = {
+      id: Date.now().toString(),
+      ...data,
+      program: program.title,
+      timestamp: new Date().toISOString(),
+    };
+    enrollments.push(newEnrollment);
+    localStorage.setItem("programEnrollments", JSON.stringify(enrollments));
     
     toast.success("Registration Submitted!", {
       description: `We'll contact you shortly at ${data.email} to complete your enrollment.`,

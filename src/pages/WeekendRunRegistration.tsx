@@ -56,7 +56,17 @@ const WeekendRunRegistration = () => {
   });
 
   const onSubmit = (data: FormData) => {
-    console.log("Run registration data:", { ...data, run });
+    // Save to localStorage
+    const registrations = JSON.parse(localStorage.getItem("weekendRunRegistrations") || "[]");
+    const newRegistration = {
+      id: Date.now().toString(),
+      ...data,
+      runId,
+      runDetails: run,
+      timestamp: new Date().toISOString(),
+    };
+    registrations.push(newRegistration);
+    localStorage.setItem("weekendRunRegistrations", JSON.stringify(registrations));
     
     toast.success("Registration Successful!", {
       description: `You're registered for the ${run?.distance} on ${run?.date}. See you there!`,

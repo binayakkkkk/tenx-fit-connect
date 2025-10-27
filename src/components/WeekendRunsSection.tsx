@@ -1,28 +1,37 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, MapPin, Users, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const upcomingRuns = [
-  {
-    id: "1",
-    date: "Saturday, Nov 2",
-    time: "7:00 AM",
-    location: "Central Park Loop",
-    distance: "5K Easy Pace",
-    participants: 24,
-  },
-  {
-    id: "2",
-    date: "Sunday, Nov 3",
-    time: "6:30 AM",
-    location: "Riverside Trail",
-    distance: "10K Tempo Run",
-    participants: 18,
-  },
-];
+interface WeekendRun {
+  id: string;
+  date: string;
+  time: string;
+  location: string;
+  distance: string;
+  participants: number;
+}
 
 export const WeekendRunsSection = () => {
+  const [upcomingRuns, setUpcomingRuns] = useState<WeekendRun[]>([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("weekendRuns");
+    if (stored) {
+      setUpcomingRuns(JSON.parse(stored));
+    } else {
+      // Initialize with default runs
+      const defaultRuns = [
+        { id: "1", date: "Saturday, Dec 7", time: "6:30 AM", location: "Trinity Bellwoods Park", distance: "5K", participants: 24 },
+        { id: "2", date: "Saturday, Dec 14", time: "6:30 AM", location: "High Park", distance: "10K", participants: 18 },
+        { id: "3", date: "Saturday, Dec 21", time: "7:00 AM", location: "Waterfront Trail", distance: "8K", participants: 15 },
+      ];
+      localStorage.setItem("weekendRuns", JSON.stringify(defaultRuns));
+      setUpcomingRuns(defaultRuns);
+    }
+  }, []);
+
   return (
     <section id="weekend-runs" className="py-20 px-4 bg-gradient-to-br from-card to-background">
       <div className="container mx-auto">
