@@ -43,59 +43,76 @@ export const EnrollmentsTab = () => {
     });
   };
 
+  // Group enrollments by program
+  const groupedEnrollments = enrollments.reduce((acc, enrollment) => {
+    if (!acc[enrollment.program]) {
+      acc[enrollment.program] = [];
+    }
+    acc[enrollment.program].push(enrollment);
+    return acc;
+  }, {} as Record<string, Enrollment[]>);
+
+  const programs = Object.keys(groupedEnrollments);
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Program Enrollments</CardTitle>
-        <CardDescription>View and manage all program registrations</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {enrollments.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>No enrollments yet</p>
-          </div>
-        ) : (
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Program</TableHead>
-                  <TableHead>Tier</TableHead>
-                  <TableHead>Start Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {enrollments.map((enrollment) => (
-                  <TableRow key={enrollment.id}>
-                    <TableCell className="font-medium">{enrollment.name}</TableCell>
-                    <TableCell>{enrollment.email}</TableCell>
-                    <TableCell>{enrollment.phone}</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">{enrollment.program}</Badge>
-                    </TableCell>
-                    <TableCell>{enrollment.tier}</TableCell>
-                    <TableCell>{enrollment.startDate}</TableCell>
-                    <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => deleteEnrollment(enrollment.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+      {enrollments.length === 0 ? (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center py-12 text-muted-foreground">
+              <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p>No enrollments yet</p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        programs.map((programName) => (
+          <Card key={programName}>
+            <CardHeader>
+              <CardTitle>{programName}</CardTitle>
+              <CardDescription>
+                {groupedEnrollments[programName].length} enrollment{groupedEnrollments[programName].length !== 1 ? 's' : ''}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Tier</TableHead>
+                      <TableHead>Start Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {groupedEnrollments[programName].map((enrollment) => (
+                      <TableRow key={enrollment.id}>
+                        <TableCell className="font-medium">{enrollment.name}</TableCell>
+                        <TableCell>{enrollment.email}</TableCell>
+                        <TableCell>{enrollment.phone}</TableCell>
+                        <TableCell>{enrollment.tier}</TableCell>
+                        <TableCell>{enrollment.startDate}</TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => deleteEnrollment(enrollment.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        ))
+      )}
+    </div>
   );
 };
