@@ -10,25 +10,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 import { Calendar, MapPin, Users, Clock, ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { useState, useEffect } from "react";
 
-const runs = [
-  {
-    id: "1",
-    date: "Saturday, Nov 2",
-    time: "7:00 AM",
-    location: "Central Park Loop",
-    distance: "5K Easy Pace",
-    participants: 24,
-  },
-  {
-    id: "2",
-    date: "Sunday, Nov 3",
-    time: "6:30 AM",
-    location: "Riverside Trail",
-    distance: "10K Tempo Run",
-    participants: 18,
-  },
-];
+interface WeekendRun {
+  id: string;
+  date: string;
+  time: string;
+  location: string;
+  distance: string;
+  participants: number;
+}
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -42,7 +33,17 @@ type FormData = z.infer<typeof formSchema>;
 
 const WeekendRunRegistration = () => {
   const { runId } = useParams<{ runId: string }>();
-  const run = runs.find((r) => r.id === runId);
+  const [runs, setRuns] = useState<WeekendRun[]>([]);
+  const [run, setRun] = useState<WeekendRun | undefined>();
+
+  useEffect(() => {
+    const stored = localStorage.getItem("weekendRuns");
+    if (stored) {
+      const parsedRuns = JSON.parse(stored);
+      setRuns(parsedRuns);
+      setRun(parsedRuns.find((r: WeekendRun) => r.id === runId));
+    }
+  }, [runId]);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
