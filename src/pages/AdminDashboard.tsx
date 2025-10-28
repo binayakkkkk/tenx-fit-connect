@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LogOut } from "lucide-react";
 import { EnrollmentsTab } from "@/components/admin/EnrollmentsTab";
 import { WeekendRunsTab } from "@/components/admin/WeekendRunsTab";
+import { WeekendRunRegistrationsTab } from "@/components/admin/WeekendRunRegistrationsTab";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -43,9 +44,10 @@ const AdminDashboard = () => {
 
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="enrollments" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3">
             <TabsTrigger value="enrollments">Program Enrollments</TabsTrigger>
             <TabsTrigger value="runs">Weekend Runs</TabsTrigger>
+            <TabsTrigger value="run-registrations">Run Registrations</TabsTrigger>
           </TabsList>
 
           <TabsContent value="enrollments">
@@ -54,6 +56,10 @@ const AdminDashboard = () => {
 
           <TabsContent value="runs">
             <WeekendRunsTab />
+          </TabsContent>
+
+          <TabsContent value="run-registrations">
+            <WeekendRunRegistrationsTab />
           </TabsContent>
         </Tabs>
       </main>

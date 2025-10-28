@@ -42,7 +42,12 @@ export const ProgramRegistrationForm = ({ program }: ProgramRegistrationFormProp
     const enrollments = JSON.parse(localStorage.getItem("programEnrollments") || "[]");
     const newEnrollment = {
       id: Date.now().toString(),
-      ...data,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      tier: data.selectedTier, // Map to 'tier' for admin panel
+      startDate: data.preferredStartDate, // Map to 'startDate' for admin panel
+      goals: data.goals,
       program: program.title,
       timestamp: new Date().toISOString(),
     };
